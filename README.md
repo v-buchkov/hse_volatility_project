@@ -1,4 +1,4 @@
-# NL-DRIVEN MOEX VOLATILITY PREDICTION PROJECT
+# NLP-DRIVEN MOEX VOLATILITY PREDICTION PROJECT
 
 We are the team of Higher School of Economics (Moscow, Russia) students that is dedicated to find volatility predictions of Russian markets, based on Natural Language Processing techniques.
 
