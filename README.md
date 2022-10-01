@@ -5,7 +5,7 @@ We are the team of Higher School of Economics (Moscow, Russia) students that is 
 # The Team:
 * Svetlana Scherbakova - ...
 * Vyacheslav Buchkov - structured products professional with experience in vanilla and exotics pricing
-* Tatyana Panyutina - ...
+* Tatyana Panyutina - data engineer
 * Eduard Achikyan - market risk analyst 
 
 The project is Python-driven.
