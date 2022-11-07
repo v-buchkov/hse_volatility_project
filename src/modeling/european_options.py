@@ -6,9 +6,133 @@ The convention for all fractions is decimals
 """
 import scipy.stats
 import numpy as np
+from abc import abstractmethod
 
 
-class EuropeanCall:
+class VanillaOptions:
+    def __init__(self, **kwargs):
+        self.term = kwargs['time_till_maturity']
+        self.sigma = kwargs['underlying_volatility']
+        self.spot = kwargs['current_spot']
+        self.initial_spot = kwargs['initial_spot_fixing']
+        self.rf = kwargs['risk_free_rate']
+        self.strike_price = kwargs['strike_decimal'] * self.initial_spot
+
+    @abstractmethod
+    @property
+    def option_premium(self):
+        return 0
+
+    @abstractmethod
+    def execute(self):
+        return 0
+
+    def calculate_call_delta(self):
+        """
+        Option delta (dV/dS) via analytical form solution of Black-Scholes-Merton.
+
+        Returns
+        -------
+        delta : float
+            Option delta.
+        """
+        d1 = (np.log(self.spot / self.strike_price) + (self.rf + self.sigma ** 2 / 2) * self.term) / \
+             (self.sigma * np.sqrt(self.term))
+
+        cdf_d1 = scipy.stats.norm.cdf(d1)
+
+        return cdf_d1
+
+    def calculate_call_gamma(self):
+        """
+        Option gamma (d2V/dS2) via analytical form solution of Black-Scholes-Merton.
+
+        Returns
+        -------
+        gamma : float
+            Option gamma.
+        """
+        d1 = (np.log(self.spot / self.strike_price) + (self.rf + self.sigma ** 2 / 2) * self.term) / \
+             (self.sigma * np.sqrt(self.term))
+
+        pdf_d1 = scipy.stats.norm.pdf(d1)
+
+        return pdf_d1 / (self.spot * self.sigma * self.term)
+
+    def calculate_call_premium(self):
+        """
+        Premium of the option (in price space) by simple Black-Scholes-Merton.
+
+        Returns
+        -------
+        call_price : float
+            Option premium.
+        """
+        d1 = (np.log(self.spot / self.strike_price) + (self.rf + self.sigma ** 2 / 2) * self.term) / \
+             (self.sigma * np.sqrt(self.term))
+        d2 = d1 - self.sigma * np.sqrt(self.term)
+
+        cdf_d1 = scipy.stats.norm.cdf(d1)
+        cdf_d2 = scipy.stats.norm.cdf(d2)
+
+        call_price = self.spot * cdf_d1 - cdf_d2 * self.strike_price * np.exp(-self.rf * self.term)
+
+        return call_price
+
+    @property
+    # Option price as decimal fraction of the initial spot
+    def price(self):
+        """
+        Option price in % from initial_spot_fixing. Premium is calculated by option_premium method.
+
+        Returns
+        -------
+        price : float
+            Option price in %.
+        """
+        return self.option_premium / self.initial_spot
+
+    # Get bid as decimal fraction price minus the commission
+    def bid(self, spread_from_mid_price: float):
+        """
+        Bid to purchase this option.
+
+        Returns
+        -------
+        bid : float
+            Bid for option in %.
+        """
+        return self.price - spread_from_mid_price
+
+    # Get offer as decimal fraction price plus the commission
+    def offer(self, spread_from_mid_price: float):
+        """
+        Offer to sell this option.
+
+        Returns
+        -------
+        offer : float
+            Offer for option in %.
+        """
+        return self.price + spread_from_mid_price
+
+    # Final result => payoff in decimal fraction, excluding the commissions and initial premium paid
+    def final_result(self, commission_paid: float = 0):
+        """
+        Future Value of PnL of the trade as (payoff - premium - commission) in % of initial_spot_fixing.
+
+        Returns
+        -------
+        pnl : float
+            PnL in %.
+        """
+        option_pnl = self.execute() / self.initial_spot
+        future_value_premium = (self.option_premium / self.spot - commission_paid) * (1 + self.rf) ** self.term
+
+        return option_pnl - future_value_premium
+
+
+class EuropeanCall(VanillaOptions):
     """
     A class of European Call option object.
 
@@ -56,100 +180,31 @@ class EuropeanCall:
         Returns PnL of the trade as (payoff - premium - commission) in % of initial_spot.
     """
     def __init__(self, **kwargs):
-        self.term = kwargs['time_till_maturity']
-        self.sigma = kwargs['underlying_volatility']
-        self.spot = kwargs['current_spot']
-        self.initial_spot = kwargs['initial_spot_fixing']
-        self.rf = kwargs['risk_free_rate']
-        self.strike_price = kwargs['strike_decimal'] * self.initial_spot
+        super().__init__(**kwargs)
 
+    @property
     def option_premium(self):
-        """
-        Premium of the option (in price space) by simple Black-Scholes-Merton.
+        return self.calculate_call_premium()
 
-        Returns
-        -------
-        call_price : float
-            Option premium.
-        """
-        d1 = (np.log(self.spot / self.strike_price) + (self.rf + self.sigma ** 2 / 2) * self.term) / \
-             (self.sigma * np.sqrt(self.term))
-        d2 = d1 - self.sigma * np.sqrt(self.term)
-
-        cdf_d1 = scipy.stats.norm.cdf(d1)
-        cdf_d2 = scipy.stats.norm.cdf(d2)
-
-        call_price = self.spot * cdf_d1 - cdf_d2 * self.strike_price * np.exp(-self.rf * self.term)
-
-        return call_price
-
+    @property
     def delta(self):
-        """
-        Option delta (dV/dS) via analytical form solution of Black-Scholes-Merton.
+        return self.calculate_call_delta()
 
-        Returns
-        -------
-        delta : float
-            Option delta.
-        """
-        d1 = (np.log(self.spot / self.strike_price) + (self.rf + self.sigma ** 2 / 2) * self.term) / \
-             (self.sigma * np.sqrt(self.term))
-
-        cdf_d1 = scipy.stats.norm.cdf(d1)
-
-        return cdf_d1
-
+    @property
     def gamma(self):
-        """
-        Option gamma (d2V/dS2) via analytical form solution of Black-Scholes-Merton.
+        return self.calculate_call_gamma()
 
-        Returns
-        -------
-        gamma : float
-            Option gamma.
-        """
-        d1 = (np.log(self.spot / self.strike_price) + (self.rf + self.sigma ** 2 / 2) * self.term) / \
-             (self.sigma * np.sqrt(self.term))
+    @property
+    def vega(self):
+        return self.calculate_call_vega()
 
-        pdf_d1 = scipy.stats.norm.pdf(d1)
+    @property
+    def theta(self):
+        return self.calculate_call_theta()
 
-        return pdf_d1 / (self.spot * self.sigma * self.term)
-
-    # Option price as decimal fraction of the initial spot
-    def price(self):
-        """
-        Option price in % from initial_spot_fixing. Premium is calculated by option_premium method.
-
-        Returns
-        -------
-        price : float
-            Option price in %.
-        """
-        return self.option_premium() / self.initial_spot
-
-    # Get bid as decimal fraction price minus the commission
-    def bid(self, spread_from_mid_price: float):
-        """
-        Bid to purchase this option.
-
-        Returns
-        -------
-        bid : float
-            Bid for option in %.
-        """
-        return self.price() - spread_from_mid_price
-
-    # Get offer as decimal fraction price plus the commission
-    def offer(self, spread_from_mid_price: float):
-        """
-        Offer to sell this option.
-
-        Returns
-        -------
-        offer : float
-            Offer for option in %.
-        """
-        return self.price() + spread_from_mid_price
+    @property
+    def rho(self):
+        return self.calculate_call_rho()
 
     # Execute the option => get the realization of the payoff function (in price space)
     def execute(self):
@@ -169,21 +224,8 @@ class EuropeanCall:
         else:
             return 0
 
-    # Final result => payoff in decimal fraction, excluding the commissions and initial premium paid
-    def final_result(self, commission_paid: float = 0):
-        """
-        PnL of the trade as (payoff - premium - commission) in % of initial_spot_fixing.
 
-        Returns
-        -------
-        pnl : float
-            PnL in %.
-        """
-        return self.execute() / self.initial_spot - \
-               (self.option_premium() / self.spot - commission_paid) * (1 + self.rf)**self.term
-
-
-class EuropeanPut:
+class EuropeanPut(VanillaOptions):
     """
     A class of European Put option object.
 
@@ -231,100 +273,31 @@ class EuropeanPut:
         Returns PnL of the trade as (payoff - premium - commission) in % of initial_spot.
     """
     def __init__(self, **kwargs):
-        self.term = kwargs['time_till_maturity']
-        self.sigma = kwargs['underlying_volatility']
-        self.spot = kwargs['current_spot']
-        self.initial_spot = kwargs['initial_spot_fixing']
-        self.rf = kwargs['risk_free_rate']
-        self.strike_price = kwargs['strike_decimal'] * self.initial_spot
+        super().__init__(**kwargs)
 
+    @property
     def option_premium(self):
-        """
-        Premium of the option (in price space) by simple Black-Scholes-Merton.
+        return self.calculate_call_premium() - self.spot + self.strike_price * np.exp(-self.rf * self.term)
 
-        Returns
-        -------
-        put_price : float
-            Option premium.
-        """
-        d1 = (np.log(self.spot / self.strike_price) + (self.rf + self.sigma ** 2 / 2) * self.term) / \
-             (self.sigma * np.sqrt(self.term))
-        d2 = d1 - self.sigma * np.sqrt(self.term)
-
-        cdf_minus_d1 = scipy.stats.norm.cdf(-d1)
-        cdf_minus_d2 = scipy.stats.norm.cdf(-d2)
-
-        put_price = self.strike_price * np.exp(-self.rf * self.term) * cdf_minus_d2 - self.spot * cdf_minus_d1
-
-        return put_price
-
+    @property
     def delta(self):
-        """
-        Option delta (dV/dS) via analytical form solution of Black-Scholes-Merton.
+        return self.calculate_call_delta() - 1
 
-        Returns
-        -------
-        delta : float
-            Option delta.
-        """
-        d1 = (np.log(self.spot / self.strike_price) + (self.rf + self.sigma ** 2 / 2) * self.term) / \
-             (self.sigma * np.sqrt(self.term))
-
-        cdf_d1 = scipy.stats.norm.cdf(d1)
-
-        return cdf_d1 - 1
-
+    @property
     def gamma(self):
-        """
-        Option gamma (d2V/dS2) via analytical form solution of Black-Scholes-Merton.
+        return self.calculate_call_gamma()
 
-        Returns
-        -------
-        gamma : float
-            Option gamma.
-        """
-        d1 = (np.log(self.spot / self.strike_price) + (self.rf + self.sigma ** 2 / 2) * self.term) / \
-             (self.sigma * np.sqrt(self.term))
+    @property
+    def vega(self):
+        return self.calculate_call_vega()
 
-        pdf_d1 = scipy.stats.norm.pdf(d1)
+    @property
+    def theta(self):
+        return self.calculate_call_theta()
 
-        return pdf_d1 / (self.spot * self.sigma * self.term)
-
-    # Option price as decimal fraction of the initial spot
-    def price(self):
-        """
-        Option price in % from initial_spot_fixing. Premium is calculated by option_premium method.
-
-        Returns
-        -------
-        price : float
-            Option price in %.
-        """
-        return self.option_premium() / self.initial_spot
-
-    # Get bid as decimal fraction price minus the commission
-    def bid(self, spread_from_mid_price: float):
-        """
-        Bid to purchase this option.
-
-        Returns
-        -------
-        bid : float
-            Bid for option in %.
-        """
-        return self.price() - spread_from_mid_price
-
-    # Get offer as decimal fraction price plus the commission
-    def offer(self, spread_from_mid_price: float):
-        """
-        Offer to sell this option.
-
-        Returns
-        -------
-        offer : float
-            Offer for option in %.
-        """
-        return self.price() + spread_from_mid_price
+    @property
+    def rho(self):
+        return self.calculate_call_rho()
 
     # Execute the option => get the realization of the payoff function (in price space)
     def execute(self):
@@ -344,15 +317,11 @@ class EuropeanPut:
         else:
             return 0
 
-    # Final result => payoff in decimal fraction, excluding the commissions and initial premium paid
-    def final_result(self, commission_paid: float = 0):
-        """
-        PnL of the trade as (payoff - premium - commission) in % of initial_spot_fixing.
 
-        Returns
-        -------
-        pnl : float
-            PnL in %.
-        """
-        return self.execute() / self.initial_spot - \
-               (self.option_premium() / self.spot - commission_paid) * (1 + self.rf)**self.term
+if __name__ == '__main__':
+    opt_params = {'time_till_maturity': 0.25, 'current_spot': 63.50, 'initial_spot_fixing': 63.50,
+                  'risk_free_rate': 0.075 - 0.024, 'strike_decimal': 1,
+                  'underlying_volatility': 0.3281}
+    opt = EuropeanCall(**opt_params)
+
+    print(opt.price)

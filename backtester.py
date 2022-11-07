@@ -3,10 +3,10 @@ import numpy as np
 import datetime as dt
 from typing import List, Tuple, Dict
 from static_data import PATH, DELTA_SECONDS
-from stat_arb.src.working_with_files.preprocessing import get_asset_returns, get_asset_prices
-from stat_arb.src.modeling.vol_cov import calculate_vol_realized
-from stat_arb.src.modeling.european_options import EuropeanCall
-from stat_arb.src.plt.graphs import plot_barchart, plot_line_chart
+from src.working_with_files.preprocessing import get_asset_returns, get_asset_prices
+from src.modeling.vol_cov import calculate_vol_realized
+from src.modeling.european_options import EuropeanCall
+from src.plt.graphs import plot_barchart, plot_line_chart
 
 
 class BacktesterOffshoreLocalRealized:
