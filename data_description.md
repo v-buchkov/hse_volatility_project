@@ -61,3 +61,31 @@ Filler пустых значений везде = пустое значение 
 6. **(!) src/working_with_files/preprocessing.py get_option_prices(source='forts')**\
    > Самое интересное - парсинг опционных данных из файлов с forts. Автоматом они не скачиваются, только закупаются от биржи.
 ***
+
+Парсинг телеграм-каналов и сайтов
+
+Данные хранятся на google-диске (https://drive.google.com/drive/u/0/folders/1YDZU_Ol3vj2jdYe3opMRn_eYi8KxgFyO) в формате .csv
+
+https://t.me/bitkogan - bitkogan.csv
+
+https://t.me/russianmacro - mmi.csv
+
+https://t.me/warwisdom - War_Wealth_Wisdom.csv
+
+https://t.me/themovchans - themovchans.csv
+
+https://t.me/v_tsuprov - vts.csv
+
+https://t.me/skybond - sky_bond.csv
+
+https://t.me/alfawealth - Alfa_Wealth.csv
+
+https://t.me/RSHB_Invest - rshb_invest.csv
+
+https://t.me/headlines_quants - headlines_QUANTS.csv
+
+https://t.me/cbrstocks - signal.csv
+
+https://cbonds.ru/news/ - cbonds.csv
+
+https://www.tinkoff.ru/invest/research/ - tinkoff.csv
