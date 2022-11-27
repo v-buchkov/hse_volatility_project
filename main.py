@@ -1,7 +1,7 @@
 from backtester import BacktesterOffshoreLocalRealized
 import datetime as dt
 import numpy as np
-from stat_arb.src.plt.graphs import plot_barchart, plot_line_chart
+from src.plt.graphs import plot_barchart, plot_line_chart
 
 if __name__ == '__main__':
 
