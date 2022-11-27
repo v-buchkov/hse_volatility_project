@@ -1,0 +1,11 @@
+numpy==1.23.4
+scipy==1.9.3
+datetime
+matplotlib==3.6.1
+lz4
+pandas
+sortedcontainers
+sqlalchemy
+psycopg2
+clickhouse-sqlalchemy
+pytz==2022.5
