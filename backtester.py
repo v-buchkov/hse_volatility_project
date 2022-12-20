@@ -63,7 +63,7 @@ class BacktesterOffshoreLocalRealized:
     def __init__(self, asset: str, datetime_start: dt.datetime, datetime_end: dt.datetime, rf_base_ccy: float,
                  rf_second_ccy: float, onshore_spread: float, offshore_spread: float):
         """
-        Initializing backtest parameters.
+        Premium of the option (in price space) by simple Black-Scholes-Merton.
 
         Parameters
         ----------
@@ -269,14 +269,14 @@ class BacktesterOffshoreLocalRealized:
 
                 # Specify option parameters
                 # Rf rate = difference (subtract base from second - e.g., subtract CNH rate from RUB rate)
-                opt = {'time_till_maturity': till_maturity, 'current_spot': spot, 'initial_spot_fixing': spot_start,
-                       'risk_free_rate': self.rf_second_ccy - self.rf_base_ccy, 'strike_decimal': 1,
-                       'underlying_volatility': vol_realized}
+                opt = {'time_till_maturity': till_maturity, 'spot': spot, 'initial_spot': spot_start,
+                       'risk_free_rate': self.rf_second_ccy - self.rf_base_ccy, 'strike': spot_start,
+                       'volatility': vol_realized}
 
                 # Initialize options objects from class EuropeanCall
                 call_obj = EuropeanCall(**opt)
                 # For all days inside period support delta of the portfolio equal to the corresponding option
-                delta = call_obj.delta()
+                delta = call_obj.delta
 
                 if not np.isnan(delta - delta_old):
                     # Get spot cost for the delta_hedge
@@ -289,7 +289,7 @@ class BacktesterOffshoreLocalRealized:
                     # => as sigma ** 2 = E(r**2) - E(r)**2, we have (gamma/2 * sigma **2) >= spread
                     # Sigma should be taken for the specified time interval => use delta seconds
                     variance_delta_time = vol_realized ** 2 / (252 * 9 * 60 * 60 / self.delta_seconds)
-                    if self.notional * call_obj.gamma() / 2 * variance_delta_time >= spread:
+                    if self.notional * call_obj.gamma / 2 * variance_delta_time >= spread:
                         # Dynamically calculate delta-hedge cost = PnL on the option
                         # Same as calculating value of the portfolio = [delta * spot + risk-free asset]
                         cost += delta_hedge_cost
