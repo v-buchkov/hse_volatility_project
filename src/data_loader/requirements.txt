@@ -1,8 +1,0 @@
-lz4
-numpy
-pandas
-sortedcontainers
-sqlalchemy
-psycopg2
-clickhouse-sqlalchemy
-pytz
