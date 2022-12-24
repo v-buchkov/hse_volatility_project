@@ -74,14 +74,6 @@ class EuropeanOption:
         self.rf = kwargs['risk_free_rate']
         self.strike = kwargs['strike']
 
-        # List of arguments that should be non-negative
-        non_negative_args = [self.term, self.sigma, self.spot, self.initial_spot, self.rf, self.strike]
-
-        # Check for non-negativity
-        for a in non_negative_args:
-            var_name = f'{a=}'.rstrip('=')
-            assert a > 0, f'{var_name} should be a positive decimal!'
-
         # Moenyness level in decimal
         self.moneyness = self.strike / self.spot
 
