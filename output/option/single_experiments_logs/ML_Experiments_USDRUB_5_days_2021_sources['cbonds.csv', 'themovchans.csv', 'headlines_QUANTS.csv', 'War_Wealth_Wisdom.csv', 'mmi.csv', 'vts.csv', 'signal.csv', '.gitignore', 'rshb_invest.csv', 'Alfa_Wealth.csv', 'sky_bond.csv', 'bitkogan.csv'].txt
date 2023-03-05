@@ -1,0 +1,4 @@
+Sources List = ['cbonds.csv', 'themovchans.csv', 'headlines_QUANTS.csv', 'War_Wealth_Wisdom.csv', 'mmi.csv', 'vts.csv', 'signal.csv', '.gitignore', 'rshb_invest.csv', 'Alfa_Wealth.csv', 'sky_bond.csv', 'bitkogan.csv']
+Train shape: (20436, 4), Val shape: (2555, 4)
+Balances: Train = 0.5248, Val = 0.5362, Test = 0.5339
+New iteration...
