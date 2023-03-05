@@ -2,6 +2,9 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/fastText" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/ml_experiments/src/text_preprocessing/fastText" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/ml_experiments_ipynb/fastText" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/stepik-dl-nlp" vcs="Git" />
   </component>
 </project>

@@ -1,0 +1,2 @@
+Using 12 sources: ('cbonds.csv', 'themovchans.csv', 'headlines_QUANTS.csv', 'War_Wealth_Wisdom.csv', 'mmi.csv', 'vts.csv', 'signal.csv', '.gitignore', 'rshb_invest.csv', 'Alfa_Wealth.csv', 'sky_bond.csv', 'bitkogan.csv')
+Solution:
