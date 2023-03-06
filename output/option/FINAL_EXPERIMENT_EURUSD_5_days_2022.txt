@@ -1,3 +1,3 @@
-Using all 12 sources: ['cbonds.csv', 'themovchans.csv', 'headlines_QUANTS.csv', 'War_Wealth_Wisdom.csv', 'mmi.csv', 'vts.csv', 'signal.csv', '.gitignore', 'rshb_invest.csv', 'Alfa_Wealth.csv', 'sky_bond.csv', 'bitkogan.csv']
+Using all 11 sources: ['cbonds.csv', 'themovchans.csv', 'headlines_QUANTS.csv', 'War_Wealth_Wisdom.csv', 'mmi.csv', 'vts.csv', 'signal.csv', 'rshb_invest.csv', 'Alfa_Wealth.csv', 'sky_bond.csv', 'bitkogan.csv']
 Solution:
-((<function fasttext_embedding at 0x17c6e2ef0>, <function fasttext_classifier at 0x17d6920e0>), 0.6321981424148607, 0.6179566563467492)
+((<function w2v_embedding at 0x162536ef0>, <function fasttext_classifier at 0x167e35bd0>), 0.6235294117647059, 0.6099071207430341)

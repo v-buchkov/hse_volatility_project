@@ -1,0 +1,28 @@
+Sources List = ['cbonds.csv', 'themovchans.csv', 'headlines_QUANTS.csv', 'War_Wealth_Wisdom.csv', 'mmi.csv', 'vts.csv', 'signal.csv', 'rshb_invest.csv', 'Alfa_Wealth.csv', 'sky_bond.csv', 'bitkogan.csv']
+Train shape: (13142, 3), Val shape: (1643, 3)
+Balances: Train = 0.5766, Val = 0.566, Test = 0.577
+New iteration...
+Preprocess: count_vectorizer_embedding, Model: logreg, Train @: 0.9719, Val @: 0.5618, Test @: 0.5563
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+New iteration...
+Preprocess: count_vectorizer_embedding, Model: random_forest, Train @: 0.9756, Val @: 0.5715, Test @: 0.5679
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+New iteration...
+Preprocess: count_vectorizer_embedding, Model: catboosting, Train @: 0.6673, Val @: 0.58, Test @: 0.5788
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+New iteration...
+Preprocess: count_vectorizer_embedding, Model: fasttext_classifier, Train @: 0.6434, Val @: 0.5557, Test @: 0.5697
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+New iteration...
+Preprocess: tfidf_embedding, Model: logreg, Train @: 0.8647, Val @: 0.5928, Test @: 0.58
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+New iteration...
+Preprocess: tfidf_embedding, Model: random_forest, Train @: 0.9756, Val @: 0.5782, Test @: 0.5654
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+New iteration...

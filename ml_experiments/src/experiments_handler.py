@@ -9,9 +9,11 @@ from tqdm import tqdm
 from ml_experiments.src.dataset.dataset_composer import compose_initial_dataset, get_list_of_available_sources
 from ml_experiments.src.technical.combinatorics import get_all_combinations
 
+from ml_experiments.src.text_preprocessing.embeddings_count_vectorizer import count_vectorizer_embedding
 from ml_experiments.src.text_preprocessing.embeddings_tfidf import tfidf_embedding
 from ml_experiments.src.text_preprocessing.embeddings_word2vec import w2v_embedding
-from ml_experiments.src.text_preprocessing.embeddings_glove import glove_embedding
+from ml_experiments.src.text_preprocessing.embeddings_word2vec_pretrained import w2v_embedding_pretrained
+from ml_experiments.src.text_preprocessing.embeddings_glove_pretrained import glove_embedding_pretrained
 from ml_experiments.src.text_preprocessing.embeddings_fasttext import fasttext_embedding
 
 from ml_experiments.src.modeling.logreg import logreg
@@ -63,17 +65,36 @@ def _run_single_experiment(currency: str, days_strategy: int, year: int, texts_p
                   f'Val = {round(calculate_sample_balance(y_val), 4)}, '
                   f'Test = {round(calculate_sample_balance(y_test), 4)}')
 
-            preprocessers = [w2v_embedding, glove_embedding, fasttext_embedding]
+            # preprocessers = [count_vectorizer_embedding, tfidf_embedding, w2v_embedding, w2v_pretrained_embedding,
+            #                  glove_embedding, fasttext_embedding]
+            preprocessers = [w2v_embedding, w2v_embedding_pretrained, glove_embedding_pretrained, fasttext_embedding]
             models = [logreg, random_forest, catboosting, fasttext_classifier]
 
+            fasttext_classifier_trained = False
             best_pair = (None, None)
             best_val_score = 0
             best_test_score = 0
             for preprocesser in preprocessers:
+                if 'pretrained' in preprocesser.__name__ or preprocesser == fasttext_embedding:
+                    X_train_p = preprocesser(X_train)
+                    X_val_p = preprocesser(X_val)
+                    X_test_p = preprocesser(X_test)
+                else:
+                    X_train_p, X_val_p, X_test_p = preprocesser(X_train, X_val, X_test)
+
                 for model in models:
                     print('New iteration...')
-                    val_score, test_score = _train_model(preprocesser, model, X_train, y_train, X_val,
-                                                         y_val, X_test, y_test, random_state=random_state)
+
+                    if model != fasttext_classifier:
+                        train_score, val_score, test_score = model(X_train_p, y_train, X_val_p, y_val, X_test_p, y_test,
+                                                                   random_state=random_state)
+                    elif fasttext_classifier_trained:
+                        continue
+                    else:
+                        train_score, val_score, test_score = model(X_train, y_train, X_val, y_val, X_test, y_test)
+                        fasttext_classifier_trained = True
+
+                    _logger(preprocesser, model, train_score, val_score, test_score)
 
                     if val_score > best_val_score:
                         best_val_score = val_score
@@ -85,24 +106,6 @@ def _run_single_experiment(currency: str, days_strategy: int, year: int, texts_p
             print(f'{best_pair}, {best_val_score}, {best_test_score}')
 
     return best_pair, best_val_score, best_test_score
-
-
-def _train_model(preprocesser, model, X_train, y_train, X_val, y_val, X_test, y_test,
-                 random_state: int = 12) -> Tuple[float, float]:
-    if model != fasttext_classifier:
-        X_train = preprocesser(X_train)
-        X_val = preprocesser(X_val)
-        X_test = preprocesser(X_test)
-
-        train_score, val_score, test_score = model(X_train, y_train, X_val, y_val, X_test, y_test,
-                                                   random_state=random_state)
-
-    else:
-        train_score, val_score, test_score = model(X_train, y_train, X_val, y_val, X_test, y_test)
-
-    _logger(preprocesser, model, train_score, val_score, test_score)
-
-    return val_score, test_score
 
 
 def run_experiments(currency: str, days_strategy: int, year: int, texts_path: str, target_path: str,
