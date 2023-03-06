@@ -153,8 +153,8 @@ def get_vectors_gt100(row, model, word_doc_freq, vocabulary):
     return np.sum(np.array(vecs), axis=0)
 
 
-def glove_embedding(texts_df: pd.DataFrame, model_used: str = 'glove-twitter-100', min_count: int = 5,
-                    max_df: int = 5, vectorization_mode: str = 'tfidf') -> np.array:
+def glove_embedding_pretrained(texts_df: pd.DataFrame, model_used: str = 'glove-twitter-100', min_count: int = 5,
+                               max_df: int = 0.8, vectorization_mode: str = 'tfidf') -> np.array:
     train_tokenized = tokenize_corpus(texts_df['text'])
     vocabulary, word_doc_freq = build_vocabulary(train_tokenized, max_doc_freq=max_df, min_count=min_count)
     vectors = vectorize_texts(train_tokenized, vocabulary, word_doc_freq, mode=vectorization_mode)

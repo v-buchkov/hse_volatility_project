@@ -8,11 +8,11 @@ if __name__ == '__main__':
     PATH_PNL = 'data/pnl/'
     PATH_OUTPUT = 'output/'
 
-    BACKTEST_FX = 'EURUSD'
-    INSTRUMENT_TYPE = AvailableInstruments.SPOT
+    BACKTEST_FX = 'USDRUB'
+    INSTRUMENT_TYPE = AvailableInstruments.OPTION
     BACKTEST_DAYS = 5
     YEAR = 2022
-    USE_ALL_SOURCES = False
+    USE_ALL_SOURCES = True
 
     run_experiments(currency=BACKTEST_FX, days_strategy=BACKTEST_DAYS, year=YEAR, texts_path=PATH_TEXTS,
                     target_path=PATH_PNL, output_path=PATH_OUTPUT, instrument_type=INSTRUMENT_TYPE,
