@@ -1,60 +1,86 @@
-Sources List = ['cbonds.csv', 'themovchans.csv', 'headlines_QUANTS.csv', 'War_Wealth_Wisdom.csv', 'mmi.csv', 'vts.csv', 'signal.csv', 'rshb_invest.csv', 'Alfa_Wealth.csv', 'sky_bond.csv', 'bitkogan.csv']
-Train shape: (12916, 3), Val shape: (1615, 3)
-Balances: Train = 0.5708, Val = 0.5746, Test = 0.5659
+Sources List = ['cbonds.csv', 'mmi.csv', 'bitkogan.csv']
+Train shape: (4376, 3), Val shape: (547, 3)
+Balances: Train = 0.5498, Val = 0.5777, Test = 0.5821
 New iteration...
-Preprocess: w2v_embedding, Model: logreg, Train @: 0.5879, Val @: 0.5802, Test @: 0.5876
+Preprocess: count_vectorizer_embedding, Model: logreg, Train @: 0.9904, Val @: 0.603, Test @: 0.6032
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 New iteration...
-Preprocess: w2v_embedding, Model: random_forest, Train @: 0.9762, Val @: 0.5796, Test @: 0.5777
+Preprocess: count_vectorizer_embedding, Model: random_forest, Train @: 0.9926, Val @: 0.5657, Test @: 0.6066
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 New iteration...
-Preprocess: w2v_embedding, Model: catboosting, Train @: 0.7827, Val @: 0.5839, Test @: 0.5833
+Preprocess: count_vectorizer_embedding, Model: catboosting, Train @: 0.9407, Val @: 0.6509, Test @: 0.6174
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 New iteration...
-Preprocess: w2v_embedding, Model: fasttext_classifier, Train @: 0.6971, Val @: 0.6235, Test @: 0.6099
+Preprocess: count_vectorizer_embedding, Model: fasttext_classifier, Train @: 0.62, Val @: 0.6263, Test @: 0.6652
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 New iteration...
-Preprocess: w2v_embedding_pretrained, Model: logreg, Train @: 0.5876, Val @: 0.4372, Test @: 0.431
+Preprocess: tfidf_embedding, Model: logreg, Train @: 0.929, Val @: 0.6327, Test @: 0.6311
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 New iteration...
-Preprocess: w2v_embedding_pretrained, Model: random_forest, Train @: 0.9759, Val @: 0.5437, Test @: 0.5672
+Preprocess: tfidf_embedding, Model: random_forest, Train @: 0.9926, Val @: 0.6091, Test @: 0.5724
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 New iteration...
-Preprocess: w2v_embedding_pretrained, Model: catboosting, Train @: 0.6496, Val @: 0.5746, Test @: 0.5659
------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-New iteration...
-New iteration...
-Preprocess: glove_embedding_pretrained, Model: logreg, Train @: 0.5766, Val @: 0.5759, Test @: 0.5641
------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-New iteration...
-Preprocess: glove_embedding_pretrained, Model: random_forest, Train @: 0.9737, Val @: 0.5604, Test @: 0.5492
------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-New iteration...
-Preprocess: glove_embedding_pretrained, Model: catboosting, Train @: 0.6703, Val @: 0.5715, Test @: 0.5585
+Preprocess: tfidf_embedding, Model: catboosting, Train @: 0.853, Val @: 0.5977, Test @: 0.616
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 New iteration...
 New iteration...
-Preprocess: fasttext_embedding, Model: logreg, Train @: 0.594, Val @: 0.5926, Test @: 0.5814
+Preprocess: w2v_embedding, Model: logreg, Train @: 0.5843, Val @: 0.5737, Test @: 0.5447
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 New iteration...
-Preprocess: fasttext_embedding, Model: random_forest, Train @: 0.9741, Val @: 0.5777, Test @: 0.5851
+Preprocess: w2v_embedding, Model: random_forest, Train @: 0.9928, Val @: 0.537, Test @: 0.5509
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 New iteration...
-Preprocess: fasttext_embedding, Model: catboosting, Train @: 0.9597, Val @: 0.6074, Test @: 0.6124
+Preprocess: w2v_embedding, Model: catboosting, Train @: 0.8526, Val @: 0.5748, Test @: 0.6156
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+New iteration...
+New iteration...
+Preprocess: w2v_embedding_pretrained, Model: logreg, Train @: 0.5699, Val @: 0.4103, Test @: 0.6251
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+New iteration...
+Preprocess: w2v_embedding_pretrained, Model: random_forest, Train @: 0.992, Val @: 0.5124, Test @: 0.5142
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+New iteration...
+Preprocess: w2v_embedding_pretrained, Model: catboosting, Train @: 0.7904, Val @: 0.5777, Test @: 0.5821
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+New iteration...
+New iteration...
+Preprocess: glove_embedding_pretrained, Model: logreg, Train @: 0.5758, Val @: 0.5468, Test @: 0.5204
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+New iteration...
+Preprocess: glove_embedding_pretrained, Model: random_forest, Train @: 0.9916, Val @: 0.5508, Test @: 0.5681
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+New iteration...
+Preprocess: glove_embedding_pretrained, Model: catboosting, Train @: 0.8311, Val @: 0.5817, Test @: 0.5383
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+New iteration...
+New iteration...
+Preprocess: fasttext_embedding, Model: logreg, Train @: 0.6065, Val @: 0.5997, Test @: 0.6021
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+New iteration...
+Preprocess: fasttext_embedding, Model: random_forest, Train @: 0.992, Val @: 0.5603, Test @: 0.5566
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+New iteration...
+Preprocess: fasttext_embedding, Model: catboosting, Train @: 0.8453, Val @: 0.5684, Test @: 0.5855
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 New iteration...
 Solution:
-(<function w2v_embedding at 0x162536ef0>, <function fasttext_classifier at 0x167e35bd0>), 0.6235294117647059, 0.6099071207430341
+(<function count_vectorizer_embedding at 0x162fe28c0>, <function catboosting at 0x169a88b80>), 0.6509107295323024, 0.6173850689188112

@@ -2,59 +2,11 @@ Sources List = ['cbonds.csv', 'themovchans.csv', 'headlines_QUANTS.csv', 'War_We
 Train shape: (11941, 3), Val shape: (1493, 3)
 Balances: Train = 0.6996, Val = 0.6919, Test = 0.7033
 New iteration...
-Preprocess: w2v_embedding, Model: logreg, Train @: 0.7004, Val @: 0.6919, Test @: 0.7019
+Preprocess: count_vectorizer_embedding, Model: logreg, Train @: 0.982, Val @: 0.5939, Test @: 0.5808
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 New iteration...
-Preprocess: w2v_embedding, Model: random_forest, Train @: 0.9796, Val @: 0.6919, Test @: 0.6986
+Preprocess: count_vectorizer_embedding, Model: random_forest, Train @: 0.9853, Val @: 0.6637, Test @: 0.562
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 New iteration...
-Preprocess: w2v_embedding, Model: catboosting, Train @: 0.7908, Val @: 0.6919, Test @: 0.7053
------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-New iteration...
-Preprocess: w2v_embedding, Model: fasttext_classifier, Train @: 0.728, Val @: 0.6926, Test @: 0.7073
------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-New iteration...
-Preprocess: w2v_embedding_pretrained, Model: logreg, Train @: 0.7, Val @: 0.6906, Test @: 0.7033
------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-New iteration...
-Preprocess: w2v_embedding_pretrained, Model: random_forest, Train @: 0.9795, Val @: 0.6919, Test @: 0.7033
------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-New iteration...
-Preprocess: w2v_embedding_pretrained, Model: catboosting, Train @: 0.7095, Val @: 0.6919, Test @: 0.7033
------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-New iteration...
-New iteration...
-Preprocess: glove_embedding_pretrained, Model: logreg, Train @: 0.7004, Val @: 0.6926, Test @: 0.704
------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-New iteration...
-Preprocess: glove_embedding_pretrained, Model: random_forest, Train @: 0.9782, Val @: 0.6885, Test @: 0.6885
------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-New iteration...
-Preprocess: glove_embedding_pretrained, Model: catboosting, Train @: 0.7025, Val @: 0.6919, Test @: 0.704
------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-New iteration...
-New iteration...
-Preprocess: fasttext_embedding, Model: logreg, Train @: 0.6999, Val @: 0.6912, Test @: 0.7026
------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-New iteration...
-Preprocess: fasttext_embedding, Model: random_forest, Train @: 0.9781, Val @: 0.6912, Test @: 0.6952
------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-New iteration...
-Preprocess: fasttext_embedding, Model: catboosting, Train @: 0.7132, Val @: 0.6926, Test @: 0.7026
------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-New iteration...
-Solution:
-(<function w2v_embedding at 0x176136ef0>, <function fasttext_classifier at 0x17b139ab0>), 0.6925653047555258, 0.7073007367716008
