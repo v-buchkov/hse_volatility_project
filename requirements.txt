@@ -1,5 +1,5 @@
 numpy
-scipy
+scipy==1.10.1
 matplotlib==3.3.4
 lz4
 pandas

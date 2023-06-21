@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "hse-volatility-project"
+version = "0.1.0"
+description = "NLP Volatility Prediction App Dependancies"
+authors = ["Vyacheslav Buchkov <104529850+v-buchkov@users.noreply.github.com>"]
+readme = "README.md"
+packages = [{include = "hse_volatility_project"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+numpy = "1.25.0"
+scipy = "1.10.1"
+matplotlib = "3.3.4"
+lz4 = "4.3.2"
+pandas = "2.0.2"
+sortedcontainers = "2.4.0"
+sqlalchemy = "1.4.43"
+clickhouse-sqlalchemy = "0.2.3"
+gensim = "4.2.0"
+pymorphy2 = "0.9.1"
+nltk = "3.7"
+tqdm = "4.63.0"
+scikit-learn = "1.1.2"
+torch = "1.13.0"
+catboost = "1.1.1"
+fasttext = "0.9.2"
+fast_ml = "3.68"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
