@@ -11,3 +11,5 @@ data
 .ipynb_checkpoints
 .DS_Store
 catboost_info
+src/persistence/credentials.json
+src/persistence/token.json
