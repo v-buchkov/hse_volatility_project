@@ -4,7 +4,6 @@ from contextlib import redirect_stdout
 
 import pandas as pd
 from fast_ml.model_development import train_valid_test_split
-from tqdm import tqdm
 
 from ml_experiments.src.dataset.dataset_composer import compose_initial_dataset, get_list_of_available_sources
 from ml_experiments.src.technical.combinatorics import get_all_combinations
