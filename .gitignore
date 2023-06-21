@@ -6,4 +6,8 @@ ml_experiments_ipynb/cc.ru.300.bin
 ml_experiments_ipynb/cc.ru.300.bin.gz
 ml_experiments_ipynb/train_ft.txt
 ml_experiments_ipynb/val_ft.txt
-data/
+data
+.idea
+.ipynb_checkpoints
+.DS_Store
+catboost_info
