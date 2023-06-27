@@ -1,11 +1,12 @@
-import numpy as np
 import torch
-from transformers import BertTokenizer, BertForSequenceClassification
-from torch.utils.data import Dataset, DataLoader
-from transformers import AdamW, get_linear_schedule_with_warmup
+import wandb
+import numpy as np
+from transformers import BertTokenizer, BertForSequenceClassification, AdamW, get_linear_schedule_with_warmup
+from torch.utils.data import DataLoader
 from sklearn.utils.class_weight import compute_class_weight
 
 from bert_dataset import CustomDataset
+
 
 class BertClassifier:
 
@@ -27,7 +28,7 @@ class BertClassifier:
         self.model.classifier = torch.nn.Linear(self.out_features, n_classes)
         self.model.to(self.device)
     
-    def preparation(self, X_train, y_train, X_valid, y_valid, batch_size: int = 121):
+    def preparation(self, X_train, y_train, X_valid, y_valid, batch_size: int = 10):
         # create datasets
         self.train_set = CustomDataset(X_train, y_train, self.tokenizer)
         self.valid_set = CustomDataset(X_valid, y_valid, self.tokenizer)
@@ -108,6 +109,10 @@ class BertClassifier:
         return val_acc, val_loss
     
     def train(self):
+        wandb.login()
+        wandb.init(project='hse_volatility_project', name=self.model.__class__.__name__)
+        wandb.watch(self.model)
+
         best_accuracy = 0
         for epoch in range(self.epochs):
             print(f'Epoch {epoch + 1}/{self.epochs}')
@@ -117,6 +122,12 @@ class BertClassifier:
             val_acc, val_loss = self.eval()
             print(f'Val loss {val_loss} accuracy {val_acc}')
             print('-' * 10)
+
+            wandb.log({
+                'epoch': epoch, 'train_loss': train_loss,
+                'train_accuracy': train_acc, 'val_loss': val_loss,
+                'val_accuracy': val_acc
+            })
 
             if val_acc > best_accuracy:
                 torch.save(self.model, self.model_save_path)
