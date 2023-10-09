@@ -1,15 +1,15 @@
-import os
 import datetime as dt
 from typing import List, Tuple, Union
 
 import pandas as pd
 
+from src.persistence.google_drive import get_data_id
 from ml_experiments.src.technical.search import binary_search_by_date
 from ml_experiments.src.dataset.dataloader import load_texts_df, load_target_variable, convert_target_to_timeseries
 
 
 def get_list_of_available_sources(data_path: str) -> List[str]:
-    return os.listdir(data_path)
+    return get_data_id(data_path).keys()
 
 
 def _get_label_by_date(row, target_timeseries: List[Tuple[dt.datetime, int]]) -> int:
